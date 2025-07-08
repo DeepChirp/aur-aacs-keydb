@@ -21,7 +21,7 @@ impl App {
 
         let git_helper = GitHelper::new(config.ssh_key_path.clone());
         let archive_client = WebArchiveClient::new();
-        let aur_manager = AurPackageManager::new(config.package_name.clone());
+        let aur_manager = AurPackageManager::new(config.package_name.clone(), config.original_url.clone());
 
         Ok(Self {
             config,
@@ -144,14 +144,12 @@ impl App {
                 &pkgbuild_path,
                 &archive_result.version,
                 &archive_result.sha256,
-                &archive_result.archive_url,
             )?;
         } else {
             self.aur_manager.create_initial_pkgbuild(
                 &pkgbuild_path,
                 &archive_result.version,
                 &archive_result.sha256,
-                &archive_result.archive_url,
             )?;
         }
 
